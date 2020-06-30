@@ -29,11 +29,11 @@ public class StreamingDatabaseManager
     }
 
     public static void UpdateLeagueTable(int leagueID, string tableString)
-    {            
-        string query = string.Format("UPDATE League SET Ranking = '{0}' WHERE ID = '{1}' ;", tableString,leagueID);
+    {
+        string query = string.Format("UPDATE League SET Ranking = '{0}' WHERE ID = '{1}' ;", tableString, leagueID);
         MakeNonSelectionQuery(query);
     }
-	
+
     private static void MakeNonSelectionQuery(string sqlQuery)
     {
         using (SqliteConnection c = new SqliteConnection("URI=file:" + Application.dataPath + "/StreamingAssets/db.db"))
@@ -46,6 +46,13 @@ public class StreamingDatabaseManager
         }
     }
 
+
+    //PLAYER RELATED SQL FUNCTIONS IS BEBLOW:
+
+    /// <summary>
+    /// get the count of players in PlayerInfo table
+    /// </summary>
+    /// <returns>int player count</returns>
     public static int GetPlayersCount()
     {
         string query = string.Format("SELECT COUNT(*) FROM PlayerInfo;");
@@ -67,10 +74,40 @@ public class StreamingDatabaseManager
         }
         return ret;
     }
- 
-       
 
-    
+    public static void UpdatePlayerAbility(int PlayerAbility, int PlayerID)
+    {
+        string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/UnityFirstTry.db"; //Path to database.
+        string query = string.Format("UPDATE PlayerInfo SET PlayerScore = '{0}' WHERE PlayerID = '{1}' ;", PlayerAbility, PlayerID);
+        using (SqliteConnection c = new SqliteConnection(conn))
+        {
+            c.Open();
 
+            using (SqliteCommand cmd = new SqliteCommand(query, c))
+            {
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }
+    public static int GetPlayerScore(int PlayerID) {
+        string query = string.Format("SELECT PlayerScore FROM PlayerInfo WHERE PlayerID = '{0}' ;", PlayerID);
+        int ret = -1;
+        string conn = "URI=file:" + Application.dataPath + "/StreamingAssets/UnityFirstTry.db"; //Path to database.
+        using (SqliteConnection c = new SqliteConnection(conn))
+        {
+            c.Open();
+            using (SqliteCommand cmd = new SqliteCommand(query, c))
+            {
+                using (SqliteDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        ret = reader.GetInt32(0);
+                    }
+                }
+            }
+        }
+        return ret;
+    }
 
 }
