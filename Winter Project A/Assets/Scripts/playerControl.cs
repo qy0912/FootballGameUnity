@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class playerControl : MonoBehaviour
 {
     float dirX, dirY;
@@ -14,6 +15,10 @@ public class playerControl : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        int count = 0;
+        Debug.Log("start");
+        count = StreamingDatabaseManager.GetPlayersCount();
+        Debug.Log("there are" + count + "players");
     }
 
     // Update is called once per frame
