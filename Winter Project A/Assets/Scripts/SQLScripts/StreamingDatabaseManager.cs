@@ -501,103 +501,18 @@ public class StreamingDatabaseManager
     /// </summary>
     /// <param name="TeamID"></param>
     public static void UpdatePlayerTrainingInTeam(int TeamID, string TrainingType) {
-        List<Player> TempPlayers = StreamingDatabaseManager.GetPlayersFromTeam(TeamID);
-        foreach (Player TempPlayer in TempPlayers) {
-            float NewValue = DetermineAbilityByTrainingType(TempPlayer, TrainingType);
-            UpdatePlayerTraining(TempPlayer.ID, TrainingType, NewValue);
+            switch (TrainingType) {
+            case "Strength":
+                StrengthPractice(TeamID);
+                break;
+            case "Agility":
+                AgilityPractice(TeamID);
+                break;
+            case "Tackling":
+                TacklingPractice(TeamID);
+                break;
         }
-    }
-    /// <summary>
-    /// This function determines what is value of player ability should be entered into db
-    /// based on training type
-    ///力量训练
-    ///i. 20岁以下球员Strength += 0.1
-    ///ii. 25岁以下球员Strength += 0.07
-    ///iii. 30岁以下球员Strength += 0.04
-    ///iv. 35岁以下球员Strength += 0.02
-    ///2. 盘带训练
-    ///i. 20岁以下球员Agility+= 0.1
-    ///ii. 25岁以下球员Agility+= 0.07
-    ///iii. 30岁以下球员Agility+= 0.04
-    ///iv. 35岁以下球员Agility+= 0.02
-    ///3. 防守训练
-    ///i. 20岁以下球员Tackling+= 0.1
-    ///ii. 25岁以下球员Tackling+= 0.07
-    ///iii. 30岁以下球员Tackling+= 0.04
-    ///iv. 35岁以下球员Tackling+= 0.02
-    /// </summary>
-    /// <param name="PlayerTrained"></param>
-    /// <param name="TrainingType"></param>
-    /// <returns></returns>
-    public static float DetermineAbilityByTrainingType(Player PlayerTrained, string TrainingType)
-    {
-
-        float temp = 0;
-        switch (TrainingType)
-        {
-
-            case "Strength" when PlayerTrained.GetAge() < 20:
-                temp = PlayerTrained.strength;
-                temp += (float)0.1;
-                break;
-            case "Strength" when PlayerTrained.GetAge() < 25:
-                temp = PlayerTrained.strength;
-                temp += (float)0.07;
-                break;
-            case "Strength" when PlayerTrained.GetAge() < 30:
-                temp = PlayerTrained.strength;
-                temp += (float)0.04;
-                break;
-            case "Strength" when PlayerTrained.GetAge() < 35:
-                temp = PlayerTrained.strength;
-                temp += (float)0.02;
-                break;
-            case "Strength" when PlayerTrained.GetAge() >= 35:
-                temp = PlayerTrained.strength;
-                break;
-
-            case "Agility" when PlayerTrained.GetAge() < 20:
-                temp = PlayerTrained.agility;
-                temp += (float)0.1;
-                break;
-            case "Agility" when PlayerTrained.GetAge() < 25:
-                temp = PlayerTrained.agility;
-                temp += (float)0.07;
-                break;
-            case "Agility" when PlayerTrained.GetAge() < 30:
-                temp = PlayerTrained.agility;
-                temp += (float)0.04;
-                break;
-            case "Agility" when PlayerTrained.GetAge() < 35:
-                temp = PlayerTrained.agility;
-                temp += (float)0.02;
-                break;
-            case "Agility" when PlayerTrained.GetAge() >= 35:
-                temp = PlayerTrained.agility;
-                break;
-
-            case "Tackling" when PlayerTrained.GetAge() < 20:
-                temp = PlayerTrained.tackling;
-                temp += (float)0.1;
-                break;
-            case "Tackling" when PlayerTrained.GetAge() < 25:
-                temp = PlayerTrained.tackling;
-                temp += (float)0.07;
-                break;
-            case "Tackling" when PlayerTrained.GetAge() < 30:
-                temp = PlayerTrained.tackling;
-                temp += (float)0.04;
-                break;
-            case "Tackling" when PlayerTrained.GetAge() < 35:
-                temp = PlayerTrained.tackling;
-                temp += (float)0.02;
-                break;
-            case "Tackling" when PlayerTrained.GetAge() >= 35:
-                temp = PlayerTrained.tackling;
-                break;
-
-        }
-        return temp;
+        
     }
 
     /// <summary>
@@ -613,4 +528,50 @@ public class StreamingDatabaseManager
         string query = string.Format("UPDATE Players SET {0} = '{1}' WHERE ID = '{2}' ;", attributeName, newValue, playerID);
         MakeNonSelectionQuery(query);
     }
+    /// <summary>
+    /// this function updates strength of team 0 after training
+    /// </summary>
+    /// <param name="teamID"></param>
+    /// 
+    public static void StrengthPractice(int teamID)
+    {
+        //List<Player> list = GetPlayersFromTeam(teamID);
+        UnityEngine.Debug.Log("start2");
+        string query1 = string.Format("update Players SET strength = strength + 0.1 where CurrentTeam = {0} and age<20", teamID);
+        string query2 = string.Format("update Players SET strength = strength + 0.07 where CurrentTeam = {0} and age<25", teamID);
+        string query3 = string.Format("update Players SET strength = strength + 0.04 where CurrentTeam = {0} and age<30", teamID);
+        string query4 = string.Format("update Players SET strength = strength + 0.02 where CurrentTeam = {0} and age<35", teamID);
+        MakeNonSelectionQuery(query1);
+        MakeNonSelectionQuery(query2);
+        MakeNonSelectionQuery(query3);
+        MakeNonSelectionQuery(query4);
+    }
+    public static void AgilityPractice(int teamID)
+    {
+        //List<Player> list = GetPlayersFromTeam(teamID);
+        UnityEngine.Debug.Log("start2");
+        string query1 = string.Format("update Players SET agility = agility + 0.1 where CurrentTeam = {0} and age<20", teamID);
+        string query2 = string.Format("update Players SET agility = agility + 0.07 where CurrentTeam = {0} and age<25", teamID);
+        string query3 = string.Format("update Players SET agility = agility + 0.04 where CurrentTeam = {0} and age<30", teamID);
+        string query4 = string.Format("update Players SET agility = agility + 0.02 where CurrentTeam = {0} and age<35", teamID);
+        MakeNonSelectionQuery(query1);
+        MakeNonSelectionQuery(query2);
+        MakeNonSelectionQuery(query3);
+        MakeNonSelectionQuery(query4);
+    }
+
+    public static void TacklingPractice(int teamID)
+    {
+        //List<Player> list = GetPlayersFromTeam(teamID);
+        UnityEngine.Debug.Log("start2");
+        string query1 = string.Format("update Players SET tackling = tackling + 0.1 where CurrentTeam = {0} and age<20", teamID);
+        string query2 = string.Format("update Players SET tackling = tackling + 0.07 where CurrentTeam = {0} and age<25", teamID);
+        string query3 = string.Format("update Players SET tackling = tackling + 0.04 where CurrentTeam = {0} and age<30", teamID);
+        string query4 = string.Format("update Players SET tackling = tackling + 0.02 where CurrentTeam = {0} and age<35", teamID);
+        MakeNonSelectionQuery(query1);
+        MakeNonSelectionQuery(query2);
+        MakeNonSelectionQuery(query3);
+        MakeNonSelectionQuery(query4);
+    }
 }
+
