@@ -573,5 +573,42 @@ public class StreamingDatabaseManager
         MakeNonSelectionQuery(query3);
         MakeNonSelectionQuery(query4);
     }
+    
+    public static void ShootPrac(int teamID)
+    {
+        UnityEngine.Debug.Log("start2");
+        string query1 = string.Format("update Players SET shooting = shooting + 0.03 where CurrentTeam = {0} and age<20", teamID);
+        string query2 = string.Format("update Players SET shooting = shooting + 0.05 where CurrentTeam = {0} and age<25", teamID);
+        string query3 = string.Format("update Players SET shooting = shooting + 0.06 where CurrentTeam = {0} and age<30", teamID);
+        string query4 = string.Format("update Players SET shooting = shooting + 0.08 where CurrentTeam = {0} and age<35", teamID);
+        MakeNonSelectionQuery(query1);
+        MakeNonSelectionQuery(query2);
+        MakeNonSelectionQuery(query3);
+        MakeNonSelectionQuery(query4);
+    }
+
+    public static void PacePrac(int teamID)
+    {
+        string query1 = string.Format("update Players SET pace = pace + 0.085 where CurrentTeam = {0} and age<20", teamID);
+        string query2 = string.Format("update Players SET pace = pace + 0.07 where CurrentTeam = {0} and age<25", teamID);
+        string query3 = string.Format("update Players SET pace = pace + 0.04 where CurrentTeam = {0} and age<30", teamID);
+        string query4 = string.Format("update Players SET pace = pace + 0.01 where CurrentTeam = {0} and age<35", teamID);
+        MakeNonSelectionQuery(query1);
+        MakeNonSelectionQuery(query2);
+        MakeNonSelectionQuery(query3);
+        MakeNonSelectionQuery(query4);
+    }
+
+    public static void AnticipationPrac(int teamID)
+    {
+        string query1 = string.Format("update Players SET anticipation = anticipation + 0.03 where CurrentTeam = {0} and age<20", teamID);
+        string query2 = string.Format("update Players SET anticipation = anticipation + 0.05 where CurrentTeam = {0} and age<25", teamID);
+        string query3 = string.Format("update Players SET anticipation = anticipation + 0.06 where CurrentTeam = {0} and age<30", teamID);
+        string query4 = string.Format("update Players SET anticipation = anticipation + 0.08 where CurrentTeam = {0} and age<35", teamID);
+        MakeNonSelectionQuery(query1);
+        MakeNonSelectionQuery(query2);
+        MakeNonSelectionQuery(query3);
+        MakeNonSelectionQuery(query4);
+    }
 }
 
